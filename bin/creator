@@ -14,17 +14,21 @@ class App
   arguments :strict
 
   desc 'OAuth client_id'
-  flag [:client_id], required: true
+  flag [:client_id]
 
   desc 'OAuth client_secret'
-  flag [:client_secret], required: true
+  flag [:client_secret]
 
   desc 'Login to Zoho and fetch authoriziation token'
   command :login do |c|
     c.action do |global_options, options, args|
+      unless global_options[:client_id] && global_options[:client_secret]
+        raise 'client_id and client_secret required'
+      end
+      
       Zoho::DeviceAuth.new(
         global_options[:client_id],
-        global_options[:client_secret]
+        global_options[:client_secret],
       )
     end
   end
@@ -51,7 +55,7 @@ class App
         options[:base_url],
         options[:account_owner],
         options[:app_name],
-        options[:report_name]
+        options[:report_name],
       ).export
     end
   end
