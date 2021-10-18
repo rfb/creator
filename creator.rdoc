@@ -1,0 +1,58 @@
+== creator - Interface with Zoho Creator applications
+
+v0.0.1
+
+=== Global Options
+=== --client_id arg
+
+OAuth client_id
+
+[Default Value] 1004.ITZ9SRRWU2RZRP9XL4SZ9WWMK4J0QF
+
+
+=== --client_secret arg
+
+OAuth client_secret
+
+[Default Value] 0c2f708f0cf5bfc52468920080a26e64ddcee56684
+
+
+=== --help
+Show this message
+
+
+
+=== --version
+Display the program version
+
+
+
+=== Commands
+==== Command: <tt>help  command</tt>
+Shows a list of commands or help for one command
+
+Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function
+===== Options
+===== -c
+List commands one per line, to assist with shell completion
+
+
+
+==== Command: <tt>initconfig </tt>
+Initialize the config file using current global options
+
+Initializes a configuration file where you can set default options for command line flags, both globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program
+===== Options
+===== --[no-]force
+force overwrite of existing config file
+
+
+
+==== Command: <tt>login </tt>
+Login to Zoho and fetch authoriziation token
+
+
+==== Command: <tt>report </tt>
+Export Zoho Creator Report as CSV
+
+

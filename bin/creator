@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+require 'gli'
+require 'creator'
+
+class App
+  extend GLI::App
+  config_file '.creator.rc'
+
+  program_desc 'Interface with Zoho Creator applications'
+
+  version Creator::VERSION
+
+  subcommand_option_handling :normal
+  arguments :strict
+
+  desc 'OAuth client_id'
+  flag [:client_id], required: true
+
+  desc 'OAuth client_secret'
+  flag [:client_secret], required: true
+
+  desc 'Login to Zoho and fetch authoriziation token'
+  command :login do |c|
+    c.action do |global_options, options, args|
+      Zoho::DeviceAuth.new(
+        global_options[:client_id],
+        global_options[:client_secret]
+      )
+    end
+  end
+
+  desc 'Export Zoho Creator Report as CSV'
+  command :report do |c|
+    c.desc 'Creator Base URL'
+    c.flag [:base_url],
+           required: true,
+           must_match: %w[creator.zoho.com creator.zoho.eu],
+           default_value: 'creator.zoho.com'
+
+    c.desc 'Account Owner'
+    c.flag [:account_owner], required: true
+
+    c.desc 'App name'
+    c.flag [:app_name], required: true
+
+    c.desc 'Report name'
+    c.flag [:report_name], required: true
+
+    c.action do |global_options, options, args|
+      Zoho::Creator::Report.new(
+        options[:base_url],
+        options[:account_owner],
+        options[:app_name],
+        options[:report_name]
+      ).export
+    end
+  end
+end
+
+exit App.run(ARGV)
