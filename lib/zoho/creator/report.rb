@@ -15,11 +15,15 @@ module Zoho
       def export(criteria = {})
         token = AuthToken.new
 
-        Faraday.get(
+        response = Faraday.get(
           @report_uri.join('export'),
           { filetype: 'csv', **criteria },
           { Authorization: "Zoho-oauthtoken #{token.access_token}" },
         ) { |req| req.options.on_data = Proc.new { |chunk| $stdout << chunk } }
+
+        if response.status != 200
+          raise "Response failed with #{response.status}"
+        end
       end
     end
   end
